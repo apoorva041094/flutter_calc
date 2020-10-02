@@ -28,14 +28,41 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   int _displayNumber = 0;
+  String _operator = '';
+  int _firstnumber =0, _secondnumber = 0;
+
+  void actionPerform(){
+    if(_operator == '+'){
+      _displayNumber = _firstnumber + _secondnumber;
+    }
+    else if(_operator == '-'){
+      _displayNumber = _firstnumber - _secondnumber;
+    }
+    else if(_operator == '*'){
+      _displayNumber = _firstnumber * _secondnumber;
+    }
+    else if(_operator == '/'){
+      _displayNumber = _firstnumber ~/ _secondnumber;
+    }
+  }
 
   void calcValue(number){
     if(number == 'C'){
       _displayNumber = 0;
+      _firstnumber = 0;
+      _secondnumber = 0;
     }
     else if(number == '+'){
-
-    }else {
+       _firstnumber = _displayNumber;
+       print(_firstnumber);
+       _operator = '+';
+       _displayNumber = 0;
+    }
+    else if(number == '='){
+      _secondnumber = _displayNumber;
+      actionPerform();
+    }
+    else {
       _displayNumber =
           int.parse((_displayNumber).toString() + number);
     }
