@@ -52,12 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
       _firstnumber = 0;
       _secondnumber = 0;
     }
-    else if(number == '+'){
-       _firstnumber = _displayNumber;
-       print(_firstnumber);
-       _operator = '+';
-       _displayNumber = 0;
-    }
     else if(number == '='){
       _secondnumber = _displayNumber;
       actionPerform();
@@ -78,10 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
             fontSize: 20.0,
           ),),
           onPressed: (){
-
             calcValue(number);
             setState(() {
-
             });
           },
         ),
