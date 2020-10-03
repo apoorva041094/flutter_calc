@@ -27,10 +27,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  int _displayNumber = 0;
-  int _display2 = 0;
+  double _displayNumber = 0.0;
+  double _display2 = 0.0;
   String _operator = '';
-  int _firstnumber = 0, _secondnumber = 0;
+  double _firstnumber = 0.0, _secondnumber = 0.0;
 
   void actionPerform(){
     if(_operator == '+'){
@@ -39,52 +39,58 @@ class _MyHomePageState extends State<MyHomePage> {
     else if(_operator == '-'){
       _displayNumber = _firstnumber - _secondnumber;
     }
-    else if(_operator == '*'){
+    else if(_operator == 'x'){
       _displayNumber = _firstnumber * _secondnumber;
     }
     else if(_operator == '/'){
-      _displayNumber = _firstnumber ~/ _secondnumber;
+      _displayNumber = _firstnumber / _secondnumber;
     }
-    _display2 = 0;
+    _display2 = 0.0;
   }
 
   void calcValue(number){
     if(number == 'C'){
-      _displayNumber = 0;
-      _display2 =0;
-      _firstnumber = 0;
-      _secondnumber = 0;
+      _displayNumber = 0.0;
+      _display2 =0.0;
+      _firstnumber = 0.0;
+      _secondnumber = 0.0;
     }
     else if(number == '='){
       _secondnumber = _displayNumber;
       actionPerform();
     }
-    else if(number == '+' || number == '-' || number == '*' || number == '/' || number == '%'){
-      if(number == '%'){
-        _displayNumber = _firstnumber ~/ 100;
-        _display2 = 0;
-      }else{
-        _operator = number;
-        _display2 = _displayNumber;
-        _firstnumber = _displayNumber;
-        _displayNumber = 0;
+    else if(number == '+' || number == '-' || number == 'x' || number == '/') {
+      _operator = number;
+      _firstnumber = _displayNumber;
+      _display2 = _displayNumber;
+      _displayNumber = 0.0;
+    }
+    else if(number == '%') {
+      if (_display2 == '0.0') {
+        _displayNumber = _firstnumber / 100;
+      } else {
+        _secondnumber = _displayNumber;
+        actionPerform();
+        _displayNumber = _displayNumber / 100;
       }
     }
     else {
-      _displayNumber =
-          int.parse((_displayNumber).toString() + number);
+      _displayNumber = double.parse(_displayNumber.toString()) * 10 + double.parse(number) ;
     }
   }
 
   Widget _buildButton(String number) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(5.0),
         child: FlatButton(
           color: Colors.grey[200],
-          child: Text(number,  style : TextStyle(
-            fontSize: 20.0,
-          ),),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(number,  style : TextStyle(
+              fontSize: 20.0,
+            ),),
+          ),
           onPressed: (){
             calcValue(number);
             setState(() {
@@ -106,47 +112,60 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  color: Colors.grey[200],
-                  child: Text(
-                    _display2.toString(),
-                    style: TextStyle(
-                      fontSize: 40.0,
+          Container(
+            color: Colors.grey[200],
+            child: Column(
+              children: [
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+
+                      child:  Text(_operator, style: TextStyle(
+                        fontSize: 35.0,
+                      )),
                     ),
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  color: Colors.grey[200],
-                  child: Text(
-                    _displayNumber.toString(),
-                    style: TextStyle(
-                      fontSize: 40.0,
+
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          _display2.toString(),
+                          style: TextStyle(
+                            fontSize: 40.0,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
                     ),
-                    textAlign: TextAlign.right,
-                  ),
+                  ],
                 ),
-              ),
-            ],
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          _displayNumber.toString(),
+                          style: TextStyle(
+                            fontSize: 40.0,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: Container(
-              color: Colors.red[100],
+              color: Colors.white,
             ),
           ),
           Row(
