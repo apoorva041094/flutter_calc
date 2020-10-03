@@ -28,8 +28,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   int _displayNumber = 0;
+  int _display2 = 0;
   String _operator = '';
-  int _firstnumber =0, _secondnumber = 0;
+  int _firstnumber = 0, _secondnumber = 0;
 
   void actionPerform(){
     if(_operator == '+'){
@@ -44,17 +45,30 @@ class _MyHomePageState extends State<MyHomePage> {
     else if(_operator == '/'){
       _displayNumber = _firstnumber ~/ _secondnumber;
     }
+    _display2 = 0;
   }
 
   void calcValue(number){
     if(number == 'C'){
       _displayNumber = 0;
+      _display2 =0;
       _firstnumber = 0;
       _secondnumber = 0;
     }
     else if(number == '='){
       _secondnumber = _displayNumber;
       actionPerform();
+    }
+    else if(number == '+' || number == '-' || number == '*' || number == '/' || number == '%'){
+      if(number == '%'){
+        _displayNumber = _firstnumber ~/ 100;
+        _display2 = 0;
+      }else{
+        _operator = number;
+        _display2 = _displayNumber;
+        _firstnumber = _displayNumber;
+        _displayNumber = 0;
+      }
     }
     else {
       _displayNumber =
@@ -92,6 +106,25 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  color: Colors.grey[200],
+                  child: Text(
+                    _display2.toString(),
+                    style: TextStyle(
+                      fontSize: 40.0,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ),
+            ],
+          ),
           Row(
             // mainAxisAlignment: MainAxisAlignment.end,
             children: [
